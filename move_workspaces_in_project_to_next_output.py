@@ -11,6 +11,8 @@ allWKNames = nf.getWKNames(wkList)
 
 fcsWK = nf.getFocusedWK(wkList)
 
+fcsOutput = nf.getOutputForWK(wkList, fcsWK)
+
 currentProj = nf.getProjectFromWKName(fcsWK)
 
 if (currentProj is None) or (len(currentProj) == 0):
@@ -43,6 +45,9 @@ def mk_cmd(i, x):
 
 
 parCommToRun = [mk_cmd(i, x) for i, x in enumerate(currentProjWKs)]
+
+# Focus output
+parCommToRun.append('focus output ' + fcsOutput + '; ')
 
 commandToRun = ["i3-msg", ''.join(parCommToRun)]
 
