@@ -35,7 +35,7 @@ def fix_container_names(node):
         node.id = node_name
 
 
-def rofi(options, program):
+def dmenu(options, program):
     '''Call dmenu with a list of options.'''
     cmd = subprocess.Popen(program,
                            shell=True,
@@ -86,17 +86,20 @@ for node in at.PreOrderIter(root, filter_=lambda x: x.container):
 for node in at.PreOrderIter(root, filter_=lambda x: x.container):
     fix_container_names(node)
 
-# Create new names for nodes for diplay in Rofi
+# Create new names for nodes for diplay in dmenu
 names_id_map = [[x+y.id, y.con_id] for x, _, y in at.RenderTree(root)]
 
-# Call rofi
-selected = rofi([x[0] for x in names_id_map[1:]], 'rofi -dmenu -i -format i')
+# Call dmenu
+selected = dmenu([x[0] for x in names_id_map[1:]], 'dmenu -c -i -l 20 -h 32 -bw 5 -p bring')
+for idx, names in enumerate(names_id_map):
+  if names[0] == selected:
+    selected = idx
 
 if selected == '':
     sys.exit(0)
 
 # Run the command
-selected = int(selected)+1
+selected = int(selected)
 command_to_run = ['i3-msg',
                   '[con_id=' + str(names_id_map[selected][1]) + '] ' +
                   'move --no-auto-back-and-forth container to workspace ' +
