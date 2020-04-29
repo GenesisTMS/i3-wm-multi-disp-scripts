@@ -90,7 +90,7 @@ for node in at.PreOrderIter(root, filter_=lambda x: x.container):
 names_id_map = [[x+y.id, y.con_id] for x, _, y in at.RenderTree(root)]
 
 # Call dmenu
-selected = dmenu([x[0] for x in names_id_map[1:]], 'dmenu -c -i -l 20 -h 32 -bw 5 -p bring')
+selected = dmenu([x[0] for x in names_id_map[1:]], 'dmenu -c -i -l 20 -h 16 -bw 5 -p bring')
 for idx, names in enumerate(names_id_map):
   if names[0] == selected:
     selected = idx
